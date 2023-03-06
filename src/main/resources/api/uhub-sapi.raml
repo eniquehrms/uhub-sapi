@@ -1,0 +1,139 @@
+#%RAML 1.0
+title: uhub-sapi
+traits:
+  client-id-header: !include exchange_modules/e47d80a3-ffda-4035-99b8-49f9db6d6145/client-id/1.0.0/client-id.raml
+  transaction-id-header: !include exchange_modules/e47d80a3-ffda-4035-99b8-49f9db6d6145/transaction-id/1.0.0/transaction-id.raml
+  correlation-id-header: !include exchange_modules/e47d80a3-ffda-4035-99b8-49f9db6d6145/correlation-id/1.0.2/correlation-id.raml
+  state-query-param: !include uhub-sapi-types/state-query-param.raml
+uses:
+  resource-types: exchange_modules/e47d80a3-ffda-4035-99b8-49f9db6d6145/resource-types/1.0.0/resource-types.raml
+  uhub-sapi-types:  exchange_modules/e47d80a3-ffda-4035-99b8-49f9db6d6145/uhub-sapi/1.0.0/uhub-sapi.raml
+
+/cases:
+  post:
+    description: To register covid case
+    is: [client-id-header,transaction-id-header,correlation-id-header]
+    body:
+      application/json:
+        type: uhub-sapi-types.covid-case-request-type
+        example: !include examples/requestBodyForPost.json
+    responses:
+      201:
+        body:
+          application/json:
+            type: uhub-sapi-types.covid-case-response-type
+            example:
+              {
+                "caseID": "12345"
+              }
+      400:
+        body:
+          application/json:
+            example: !include examples/400.json
+      503:
+        body:
+          application/json:
+            example: !include examples/503.json
+      500:
+        body:
+          application/json:
+            example: !include examples/500.json
+  put:
+    description: To update covid case
+    is: [client-id-header,transaction-id-header,correlation-id-header]
+    body:
+      application/json:
+        type: uhub-sapi-types.covid-case-request-type
+        example: !include examples/requestBodyForPost.json
+    responses:
+      201:
+        body:
+          application/json:
+            type: uhub-sapi-types.covid-case-response-type
+            example:
+              {
+                "caseID": "12345"
+              }
+      400:
+        body:
+          application/json:
+            example: !include examples/400.json
+      503:
+        body:
+          application/json:
+            example: !include examples/503.json
+      500:
+        body:
+          application/json:
+            example: !include examples/500.json
+  /{nationalID}:
+     get:
+       description: find case using national ID
+       is: [client-id-header,transaction-id-header,correlation-id-header]
+       responses:
+         
+         200:
+          body:
+           application/json:
+            type: uhub-sapi-types.get-cases-by-national-id-response-type
+            example: !include /examples/responseBodyForGetReports.json
+          
+         201:
+          body:
+            application/json:
+              type: uhub-sapi-types.get-cases-by-national-id-response-type
+              example: !include /examples/responseBodyForGetReports.json
+         400:
+           body:
+            application/json:
+              example: !include examples/400.json
+         503:
+          body:
+            application/json:
+              example: !include examples/503.json
+                
+         500:
+          body:
+            application/json:
+              example: !include examples/500.json
+                
+/reports:
+  get:
+    description: To get covid case
+    is: [client-id-header,transaction-id-header,correlation-id-header,state-query-param]
+    
+    responses:
+         200:
+          body:
+            application/json:
+              type: uhub-sapi-types.get-reports-response-type
+              example: !include /examples/responseBodyToGetReports.json
+         400:
+           body:
+            application/json:
+              example: !include examples/400.json
+                
+         503:
+          body:
+            application/json:
+              example: !include examples/503.json
+         500:
+          body:
+            application/json:
+              example: !include examples/500.json
+      
+          
+/health-check:
+  get:
+  type:
+    resource-types.all: 
+      getResponseType: string     
+          
+
+      
+    
+    
+
+      
+            
+            

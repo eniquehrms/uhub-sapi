@@ -1,0 +1,11 @@
+#%RAML 1.0 Trait
+ usage: Apply this to enforce client id policy
+ headers:
+  client_id:
+    type: string
+    required: true
+    description: client id to authenticate system api
+  client_secret:
+    type: string
+    required: true
+    description: client secret to authenticate system api
